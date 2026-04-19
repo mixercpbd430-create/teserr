@@ -1,0 +1,27 @@
+# ===== .NET =====
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.vs/
+appsettings.Development.json
+
+# ===== Node / React =====
+node_modules/
+dist/
+.env.local
+.env.production.local
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Secrets =====
+*.pfx
+*.pem

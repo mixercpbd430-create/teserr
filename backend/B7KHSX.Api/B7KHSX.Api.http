@@ -1,0 +1,6 @@
+@B7KHSX.Api_HostAddress = http://localhost:5052
+
+GET {{B7KHSX.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

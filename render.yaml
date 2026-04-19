@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: teserr
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: JWT_KEY
+        generateValue: true

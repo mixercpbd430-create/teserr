@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --nord0: #2E3440;
+  --nord1: #3B4252;
+  --nord2: #434C5E;
+  --nord3: #4C566A;
+  --nord4: #D8DEE9;
+  --nord5: #E5E9F0;
+  --nord6: #ECEFF4;
+  --nord7: #8FBCBB;
+  --nord8: #88C0D0;
+  --nord9: #81A1C1;
+  --nord10: #5E81AC;
+  --nord11: #BF616A;
+  --nord12: #D08770;
+  --nord13: #EBCB8B;
+  --nord14: #A3BE8C;
+  --nord15: #B48EAD;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeLegibility;
+  background: #f0f2f5;
+  color: #1a1a2e;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* ===== HIGH CONTRAST OVERRIDES ===== */
+
+/* Sidebar menu: bright white text + crisp icons */
+.ant-layout-sider {
+  transition: all 0.2s ease;
+}
+
+.ant-menu-dark .ant-menu-item,
+.ant-menu-dark .ant-menu-submenu-title {
+  color: #ECEFF4 !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  border-radius: 6px !important;
+  margin: 1px 8px !important;
+}
+
+.ant-menu-dark .ant-menu-item .anticon,
+.ant-menu-dark .ant-menu-submenu-title .anticon {
+  color: #D8DEE9 !important;
+  font-size: 17px !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background: #5E81AC !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  margin: 2px 8px !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected .anticon {
+  color: #fff !important;
+}
+
+.ant-menu-dark .ant-menu-item-group-title,
+.ant-menu-dark .ant-menu-submenu > .ant-menu-submenu-title {
+  color: #D8DEE9 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 12px !important;
+  letter-spacing: 0.5px;
+}
+
+/* Table: crisp headers and readable body */
+.ant-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.ant-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.ant-table-thead > tr > th {
+  font-weight: 700 !important;
+  color: #2E3440 !important;
+  font-size: 13px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.ant-table-tbody > tr > td {
+  color: #1a1a2e !important;
+  font-weight: 450 !important;
+}
+
+/* Stat cards: fully opaque text */
+.ant-statistic-title {
+  color: #555 !important;
+  font-weight: 600 !important;
+}
+
+.ant-statistic-content {
+  color: #1a1a2e !important;
+  font-weight: 700 !important;
+}
+
+/* Tags: higher contrast */
+.ant-tag {
+  font-weight: 500 !important;
+}
+
+/* Tabs: crisp text */
+.ant-tabs-tab {
+  font-weight: 500 !important;
+  color: #555 !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  font-weight: 700 !important;
+  color: #1677ff !important;
+}
+
+/* Page titles */
+.ant-typography h3,
+.ant-typography h4 {
+  font-weight: 700 !important;
+  color: #1a1a2e !important;
+}
+
+/* Login page input overrides for dark theme */
+.ant-input-affix-wrapper input::placeholder,
+.ant-input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Smooth page transitions */
+.ant-layout-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ant-layout-sider {
+    position: fixed !important;
+    z-index: 100;
+    height: 100vh;
+  }
+}
