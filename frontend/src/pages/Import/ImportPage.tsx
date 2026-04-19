@@ -764,7 +764,6 @@ export default function ImportPage() {
           }
 
           const matched = matchProducts(result.rows, productList);
-          const matchedCount = matched.filter(r => r.matched).length;
           const unmatchedCount = matched.filter(r => !r.matched).length;
 
           setOrderRows(matched);

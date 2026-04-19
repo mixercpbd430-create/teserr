@@ -3,7 +3,6 @@ import { Table, Card, Button, Select, Space, Typography, Tag, Modal, Form,
   InputNumber, Input, DatePicker, message, Tabs, Popconfirm } from 'antd';
 import { PlusOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
 import { orderApi, productApi } from '../../api/apiClient';
-import dayjs from 'dayjs';
 import type { ColumnsType } from 'antd/es/table';
 
 const { Title } = Typography;
