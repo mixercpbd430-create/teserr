@@ -195,47 +195,57 @@ public class BaoBiScanController : ControllerBase
     [HttpPost("baobi-scan")]
     public async Task<IActionResult> ImportBaoBiScan([FromBody] BaoBiScanRequest request)
     {
-        int updated = 0, created = 0;
-
-        foreach (var item in request.Items)
+        try
         {
-            if (string.IsNullOrWhiteSpace(item.LoaiBao)) continue;
+            int updated = 0, created = 0;
+            
+            if (!DateTime.TryParse(request.Date, out var scanDate))
+                scanDate = DateTime.UtcNow;
 
-            // Upsert by LoaiBao + KichCoKg
-            var existing = _db.BaoBis.FirstOrDefault(b =>
-                b.LoaiBao == item.LoaiBao && b.KichCoKg == item.KichCoKg && !b.DaXoa);
+            foreach (var item in request.Items)
+            {
+                if (string.IsNullOrWhiteSpace(item.LoaiBao)) continue;
 
-            if (existing != null)
-            {
-                existing.TonKhoHienTai = item.TonKhoHienTai;
-                existing.NgayKiemTra = DateTime.Parse(request.Date);
-                existing.GhiChu = request.Source;
-                existing.NguoiSua = "email-scanner";
-                existing.ThoiGianSua = DateTime.UtcNow;
-                updated++;
-            }
-            else
-            {
-                _db.BaoBis.Add(new BaoBi
+                // Upsert by LoaiBao + KichCoKg
+                var existing = _db.BaoBis.FirstOrDefault(b =>
+                    b.LoaiBao == item.LoaiBao && b.KichCoKg == item.KichCoKg && !b.DaXoa);
+
+                if (existing != null)
                 {
-                    LoaiBao = item.LoaiBao,
-                    KichCoKg = item.KichCoKg,
-                    TonKhoHienTai = item.TonKhoHienTai,
-                    NgayKiemTra = DateTime.Parse(request.Date),
-                    GhiChu = request.Source,
-                    NguoiTao = "email-scanner",
-                    ThoiGianTao = DateTime.UtcNow,
-                });
-                created++;
+                    existing.TonKhoHienTai = item.TonKhoHienTai;
+                    existing.NgayKiemTra = scanDate;
+                    existing.GhiChu = request.Source;
+                    existing.NguoiSua = "email-scanner";
+                    existing.ThoiGianSua = DateTime.UtcNow;
+                    updated++;
+                }
+                else
+                {
+                    _db.BaoBis.Add(new BaoBi
+                    {
+                        LoaiBao = item.LoaiBao,
+                        KichCoKg = item.KichCoKg,
+                        TonKhoHienTai = item.TonKhoHienTai,
+                        NgayKiemTra = scanDate,
+                        GhiChu = request.Source,
+                        NguoiTao = "email-scanner",
+                        ThoiGianTao = DateTime.UtcNow,
+                    });
+                    created++;
+                }
             }
-        }
-        await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
-        return Ok(new {
-            Success = true,
-            Message = $"Bao bì scan: {updated} updated, {created} created",
-            Updated = updated, Created = created,
-        });
+            return Ok(new {
+                Success = true,
+                Message = $"Bao bì scan: {updated} updated, {created} created",
+                Updated = updated, Created = created,
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Success = false, Message = ex.Message, Detail = ex.InnerException?.Message });
+        }
     }
 }
 

@@ -43,6 +43,67 @@ public class StockController : ControllerBase
         var totalStock = await _db.StockTodays.SumAsync(s => s.SoLuong);
         return Ok(new { TotalProducts = totalProducts, TotalStock = totalStock, TotalStockTan = totalStock / 1000 });
     }
+
+    [HttpGet("monthly-summary")]
+    public async Task<IActionResult> GetMonthlySummary([FromQuery] int year, [FromQuery] int month)
+    {
+        var daysInMonth = DateTime.DaysInMonth(year, month);
+        var result = new List<object>();
+
+        // Stock daily: group by NgayCapNhat (string "yyyy-MM-dd")
+        var stockData = await _db.StockTodays
+            .Where(s => s.NgayCapNhat != null && s.NgayCapNhat.StartsWith($"{year:D4}-{month:D2}"))
+            .GroupBy(s => s.NgayCapNhat)
+            .Select(g => new { Date = g.Key, Total = g.Sum(x => x.SoLuong) })
+            .ToListAsync();
+
+        // Packing daily: group by NgayDongBao (DateTime)
+        var startDate = new DateTime(year, month, 1);
+        var endDate = startDate.AddMonths(1);
+        var packingData = await _db.PackingPlans
+            .Where(p => p.NgayDongBao >= startDate && p.NgayDongBao < endDate)
+            .GroupBy(p => p.NgayDongBao.Day)
+            .Select(g => new { Day = g.Key, Total = g.Sum(x => x.SoLuongTan) })
+            .ToListAsync();
+
+        // Sale (Order) daily: group by NgayLay (string "yyyy-MM-dd")
+        var saleData = await _db.Orders
+            .Where(o => o.NgayLay != null && o.NgayLay.StartsWith($"{year:D4}-{month:D2}"))
+            .GroupBy(o => o.NgayLay)
+            .Select(g => new { Date = g.Key, Total = g.Sum(x => x.SoLuong) })
+            .ToListAsync();
+
+        // Build daily arrays
+        var stockDaily = new double[daysInMonth];
+        var packingDaily = new double[daysInMonth];
+        var saleDaily = new double[daysInMonth];
+
+        foreach (var s in stockData)
+        {
+            if (s.Date != null && DateTime.TryParse(s.Date, out var dt))
+                stockDaily[dt.Day - 1] = s.Total;
+        }
+        foreach (var p in packingData)
+        {
+            if (p.Day >= 1 && p.Day <= daysInMonth)
+                packingDaily[p.Day - 1] = p.Total;
+        }
+        foreach (var o in saleData)
+        {
+            if (o.Date != null && DateTime.TryParse(o.Date, out var dt))
+                saleDaily[dt.Day - 1] = o.Total;
+        }
+
+        return Ok(new
+        {
+            Year = year,
+            Month = month,
+            DaysInMonth = daysInMonth,
+            Stock = stockDaily,
+            Packing = packingDaily,
+            Sale = saleDaily
+        });
+    }
 }
 
 [ApiController]

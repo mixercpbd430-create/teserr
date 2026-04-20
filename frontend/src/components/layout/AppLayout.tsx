@@ -54,6 +54,9 @@ const ROUTE_MAP: Record<string, string> = {
   'Pellet': '/pellet',
   'Đóng bao': '/packing',
   'Bao bì': '/baobi',
+  'Sale': '/sale',
+  'DL Đóng bao': '/packing-data',
+  'Gửi dữ liệu': '/upload',
 };
 
 export default function AppLayout() {
@@ -114,8 +117,11 @@ export default function AppLayout() {
       { key: 'g-data', icon: <DatabaseOutlined />, label: 'Dữ liệu', children: [
         { key: '/product', label: 'Sản phẩm' },
         { key: '/stock', label: 'Stock' },
+        { key: '/sale', label: 'Sale' },
+        { key: '/packing-data', label: 'DL Đóng bao' },
         { key: '/baobi', label: 'Bao bì' },
         { key: '/import', label: 'Import Excel' },
+        { key: '/upload', label: 'Gửi dữ liệu' },
       ]},
       { key: 'g-admin', icon: <SettingOutlined />, label: 'Quản trị', children: [
         { key: '/admin', label: 'Hệ thống' },

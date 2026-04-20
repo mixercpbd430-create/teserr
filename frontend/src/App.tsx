@@ -12,9 +12,12 @@ import ProductPage from './pages/Product/ProductPage';
 import StockPage from './pages/Stock/StockPage';
 import PelletPage from './pages/Pellet/PelletPage';
 import PackingPage from './pages/Packing/PackingPage';
+import SalePage from './pages/Sale/SalePage';
+import PackingDataPage from './pages/PackingData/PackingDataPage';
 import BaoBiPage from './pages/BaoBi/BaoBiPage';
 import AdminPage from './pages/Admin/AdminPage';
 import ImportPage from './pages/Import/ImportPage';
+import UploadPage from './pages/Upload/UploadPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   // Auth disabled — always allow access
@@ -67,9 +70,12 @@ export default function App() {
             <Route path="stock" element={<StockPage />} />
             <Route path="pellet" element={<PelletPage />} />
             <Route path="packing" element={<PackingPage />} />
+            <Route path="sale" element={<SalePage />} />
+            <Route path="packing-data" element={<PackingDataPage />} />
             <Route path="baobi" element={<BaoBiPage />} />
             <Route path="admin" element={<AdminPage />} />
             <Route path="import" element={<ImportPage />} />
+            <Route path="upload" element={<UploadPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

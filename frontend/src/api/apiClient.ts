@@ -80,6 +80,8 @@ export const stockApi = {
   getAll: (params?: { search?: string; page?: number; pageSize?: number }) =>
     apiClient.get('/stock', { params }),
   getSummary: () => apiClient.get('/stock/summary'),
+  getMonthlySummary: (year: number, month: number) =>
+    apiClient.get('/stock/monthly-summary', { params: { year, month } }),
 };
 
 // Dashboard
