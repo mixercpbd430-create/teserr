@@ -6,7 +6,7 @@ import { Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 interface StockItem {
   id: number; idSanPham: number; soLuong: number; ngayCapNhat: string;

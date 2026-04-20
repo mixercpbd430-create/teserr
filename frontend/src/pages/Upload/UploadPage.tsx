@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, Upload, Button, Select, Typography, message, Table, Space, Tag, Alert, Statistic, Row, Col, Input, Progress } from 'antd';
+import { Card, Upload, Button, Select, Typography, message, Table, Space, Tag, Alert, Statistic, Row, Col } from 'antd';
 import { UploadOutlined, CloudUploadOutlined, FileExcelOutlined, SendOutlined, CheckCircleOutlined, DatabaseOutlined } from '@ant-design/icons';
 import { productApi } from '../../api/apiClient';
 import * as XLSX from 'xlsx';
@@ -191,7 +191,7 @@ export default function UploadPage() {
           const lineDongBao = String(row['Line'] ?? row['line_dong_bao'] ?? row['LineDongBao'] ?? 'L1');
           return {
             ngayDongBao: new Date().toISOString(),
-            idSanPham: product?.id ?? (Number(row['id_san_pham'] ?? row['IdSanPham'] ?? row['ID'] ?? 0)) || null,
+            idSanPham: (product?.id ?? (Number(row['id_san_pham'] ?? row['IdSanPham'] ?? row['ID'] ?? 0))) || null,
             soLuongTan,
             kichCoBaoKg,
             soBao,
